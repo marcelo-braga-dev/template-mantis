@@ -104,12 +104,11 @@ export default function LayoutCliente({titlePage, voltar, children}) {
                     </Container>
                 </Box>
             </Box>
-            <div className="row justify-content-center bg-dark pt-3 fixed-bottom">
+            <div className="row justify-content-center bg-dark pt-3 ">
                 <div className="col-auto">
                     <a href={route('login')} style={{textDecoration: "none", color: 'white'}}>Login</a>
                 </div>
             </div>
         </>
-
     );
 }
