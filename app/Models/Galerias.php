@@ -88,7 +88,7 @@ class Galerias extends Model
             'descricao' => $item->descricao,
             'status_nome' => (new GaleriasStatus())->getStatusNome($item->status),
             'status' => $item->status,
-            'capa' => asset($item->capa),
+            'capa' => asset('storage/' . $item->capa),
             'ultima_atualizacao' => date('d/m/y H:i:s', strtotime($item->updated_at)),
             'senha' => $item->senha,
             'token' => $item->token,

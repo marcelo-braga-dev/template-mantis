@@ -58,7 +58,7 @@ class Eventos extends Model
             'cidade' => $item->cidade ?? null,
             'estado' => $item->estado ?? null,
             'localidade' => ($item->cidade ?? null) . '/' . ($item->estado ?? null),
-            'logo' => asset($item->logo)
+            'logo' => asset('storage/' . $item->logo)
         ];
     }
 

@@ -48,11 +48,11 @@ class GaleriasArquivos extends Model
             ->transform(function ($item) {
                 return [
                     'id' => $item->id,
-                    'url_original' => asset($item->url_original),
-                    'url_comprimida' => asset($item->url_comprimida),
-                    'url_comprimida_marca' => asset($item->url_comprimida_marca),
-                    'url_miniatura' => asset($item->url_miniatura),
-                    'url_miniatura_marca' => asset($item->url_miniatura_marca),
+                    'url_original' => asset('storage/' . $item->url_original),
+                    'url_comprimida' => asset('storage/' . $item->url_comprimida),
+                    'url_comprimida_marca' => asset('storage/' . $item->url_comprimida_marca),
+                    'url_miniatura' => asset('storage/' . $item->url_miniatura),
+                    'url_miniatura_marca' => asset('storage/' . $item->url_miniatura_marca),
                     'tipo' => $item->tipo,
                 ];
             });
