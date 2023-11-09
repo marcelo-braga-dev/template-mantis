@@ -6,10 +6,7 @@ import NavGroup from './NavGroup.jsx';
 import menuItem from '@/Layouts/AdminLayout/menu-items/index.js';
 
 const Navigation = ({menu}) => {
-
-
     const navGroups = menuItem.items.map((item) => {
-
         switch (item.type) {
             case 'group':
                 return <NavGroup key={item.id} item={item} menu={menu}/>;

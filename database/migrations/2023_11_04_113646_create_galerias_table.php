@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -16,6 +15,8 @@ return new class extends Migration
             $table->string('titulo');
             $table->date('data');
             $table->bigInteger('eventos_id');
+            $table->string('senha');
+            $table->string('token');
             $table->string('capa')->nullable();
             $table->string('descricao')->nullable();
             $table->string('status', 16);

@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\Services\Files\UploadFilesService;
+use App\src\Galerias\Status\GaleriasStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Galerias extends Model
 {
@@ -16,6 +18,8 @@ class Galerias extends Model
         'titulo',
         'data',
         'eventos_id',
+        'senha',
+        'token',
         'capa',
         'status',
         'descricao',
@@ -25,26 +29,31 @@ class Galerias extends Model
     {
         $url = (new UploadFilesService())->armazenarMultiplos($dados['capa'], "galerias/capas");
 
-        $this->newQuery()
+        $galeria = $this->newQuery()
             ->create([
                 'titulo' => $dados->titulo,
                 'data' => $dados->data,
                 'eventos_id' => $dados->evento,
                 'descricao' => $dados->descricao,
                 'capa' => $url,
-                'status' => 'aberto',
+                'senha' => Str::random(8),
+                'token' => Str::random(),
+                'status' => $dados->status,
             ]);
+
+        (new GaleriasPastas())->create(['galeria_id' => $galeria->id, 'nome_pasta' => 'raiz']);
     }
 
     public function get()
     {
         $eventos = (new Eventos())->getNomes();
+        $qtdArquivos = (new GaleriasArquivos())->qtdArquivos();
 
         return $this->newQuery()
             ->orderByDesc('id')
             ->get()
-            ->transform(function ($item) use ($eventos) {
-                return $this->dados($item, $eventos);
+            ->transform(function ($item) use ($eventos, $qtdArquivos) {
+                return $this->dados($item, $eventos, $qtdArquivos);
             });
     }
 
@@ -70,22 +79,47 @@ class Galerias extends Model
             });
     }
 
-    private function dados($item, $evento): array
+    private function dados($item, $evento, $qtdArquivos = []): array
     {
         return [
             'id' => $item->id,
             'titulo' => $item->titulo,
             'data' => convert_data($item->data),
             'descricao' => $item->descricao,
-            'status_nome' => $item->status,
+            'status_nome' => (new GaleriasStatus())->getStatusNome($item->status),
             'status' => $item->status,
-            'capa' => asset('storage/' . $item->capa),
+            'capa' => asset($item->capa),
             'ultima_atualizacao' => date('d/m/y H:i:s', strtotime($item->updated_at)),
+            'senha' => $item->senha,
+            'token' => $item->token,
+            'qtd_arquivos' => $qtdArquivos[$item->id] ?? 0,
             'evento' => [
                 'id' => $evento[$item->eventos_id]['id'] ?? '',
                 'nome' => $evento[$item->eventos_id]['nome'] ?? '',
                 'localidade' => $evento[$item->eventos_id]['localidade'] ?? '',
             ]
         ];
+    }
+
+    public function alterarStatus($id, $status)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->update([
+                'status' => $status
+            ]);
+    }
+
+    public function getPeloToken($hash):array
+    {
+        $eventos = (new Eventos())->getNomes();
+        $qtdArquivos = (new GaleriasArquivos())->qtdArquivos();
+
+        $dados = $this->newQuery()
+            ->where('token', $hash)
+            ->orderByDesc('id')
+            ->firstOrFail();
+
+        return $this->dados($dados, $eventos, $qtdArquivos);
     }
 }

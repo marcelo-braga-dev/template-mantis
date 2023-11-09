@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\Clientes\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,25 +18,19 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+
+    if (auth()->check()) return redirect()->route('admin.galerias.index');
+
+    return redirect()->route('home');
 });
 
+require __DIR__ . '/clientes/home.php';
 require __DIR__ . '/auth/index.php';
 require __DIR__ . '/auth.php';
 
 Route::get('/dashboard', function () {
-    return Inertia::render('dashboard/index');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    return redirect('/');
 });
+
 
 

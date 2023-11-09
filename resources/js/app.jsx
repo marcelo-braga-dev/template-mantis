@@ -1,14 +1,15 @@
 import './bootstrap';
 import '../css/app.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import '../css/style.css';
-
+import '../css/theme.css';
+import '../css/lightbox.css';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-import "bootstrap/dist/css/bootstrap.min.css";
 import ThemeCustomization from '@/themes/index';
 
 import {createRoot} from 'react-dom/client';

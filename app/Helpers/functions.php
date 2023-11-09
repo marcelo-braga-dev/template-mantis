@@ -1,4 +1,7 @@
 <?php
+
+use Illuminate\Support\Facades\Storage;
+
 if (!function_exists('print_pre')) {
     function print_pre($valor, $titulo = null)
     {

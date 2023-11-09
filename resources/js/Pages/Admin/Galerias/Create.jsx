@@ -4,7 +4,7 @@ import React from "react";
 import {useForm} from "@inertiajs/react";
 import {MuiFileInput} from "mui-file-input";
 
-export default function ({eventos}) {
+export default function ({eventos, status}) {
     const {post, data, setData} = useForm()
 
     const submit = (e) => {
@@ -13,7 +13,7 @@ export default function ({eventos}) {
     }
 
     return (
-        <LayoutAdmin menu="galerias"
+        <LayoutAdmin menu="galerias" titlePage="Cadastrar Galeria"
                      voltar={route('admin.galerias.index')}>
             <form onSubmit={submit}>
                 <div className="row">
@@ -38,14 +38,24 @@ export default function ({eventos}) {
                                    InputLabelProps={{shrink: true}} required
                                    onChange={e => setData('data', e.target.value)}/>
                     </div>
+                    <div className="col-md-2 mb-4">
+                        <TextField select label="Status" defaultValue="" fullWidth required
+                                   onChange={e => setData('status', e.target.value)}>
+                            {status.map((item) => (
+                                <MenuItem key={item.status} value={item.status}>
+                                    {item.nome}
+                                </MenuItem>
+                            ))}
+                        </TextField>
+                    </div>
                     <div className="col-md-3 mb-4">
-                        <MuiFileInput className="p-2" fullWidth label="Selecionar Arquivos" value={data?.capa}
+                        <MuiFileInput className="p-2" fullWidth label="Imagem da Capa" value={data?.capa}
                                       onChange={e => setData('capa', e)}/>
                     </div>
                 </div>
                 <div className="row">
                     <div className="col mb-4">
-                        <TextField multiline rows="4" label="Descrição da Galeria" fullWidth
+                        <TextField multiline rows="2" label="Descrição da Galeria" fullWidth
                                    onChange={e => setData('descricao', e.target.value)}/>
                     </div>
                 </div>

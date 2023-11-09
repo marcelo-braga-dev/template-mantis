@@ -14,9 +14,13 @@ return new class extends Migration
         Schema::create('galerias_arquivos', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('galerias_id');
-            $table->string('url');
+            $table->bigInteger('pasta');
+            $table->string('url_original');
+            $table->string('url_comprimida')->nullable();
+            $table->string('url_comprimida_marca')->nullable();
+            $table->string('url_miniatura')->nullable();
+            $table->string('url_miniatura_marca')->nullable();
             $table->string('tipo', 32);
-            $table->bigInteger('tamanho');
             $table->timestamps();
         });
     }

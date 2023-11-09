@@ -15,8 +15,8 @@ const NavItem = ({item, level, menuSelected}) => {
     const Icon = item.icon;
     const itemIcon = item.icon ? <Icon style={{fontSize: '1rem'}}/> : false;
 
-    const textColor = 'text.primary';
-    const iconSelectedColor = 'primary.main';
+    const textColor = 'var(--menu-main-color)'
+    const iconSelectedColor = 'var(--menu-secundary-color)';
 
     return (
         <ListItemButton
@@ -25,6 +25,11 @@ const NavItem = ({item, level, menuSelected}) => {
             onClick={() => undefined}
             selected={isSelected}
             sx={{
+                '&:hover, &:focus': {
+                    'bgcolor': 'var(--menu-main-bg-hover) !important',
+                    'color': 'var(--menu-main-color-hover) !important',
+                },
+                bgcolor:  isSelected ? 'var(--menu-secundary-bg) !important' : 'var(--menu-main-bg)',
                 zIndex: 1201,
                 pl: drawerOpen ? `${level * 28}px` : 1.5,
                 py: !drawerOpen && level === 1 ? 1 : 1,
@@ -50,8 +55,8 @@ const NavItem = ({item, level, menuSelected}) => {
                         '&:hover': {
                             bgcolor: 'lighter'
                         },
-                        bgcolor: 'lighter',
-                        borderRight: `2px solid ${theme.palette.primary.main}`,
+                        // bgcolor: 'lighter',
+                        borderRight: `2px solid ${iconSelectedColor}`,
                     }
                 })
             }}
@@ -71,13 +76,13 @@ const NavItem = ({item, level, menuSelected}) => {
                                 bgcolor: 'secondary.lighter'
                             }
                         }),
-                        ...(!drawerOpen &&
-                            isSelected && {
-                                bgcolor: 'primary.lighter',
-                                '&:hover': {
-                                    bgcolor: 'primary.lighter'
-                                }
-                            })
+                        // ...(!drawerOpen &&
+                        //     isSelected && {
+                        //         bgcolor: 'primary.lighter',
+                        //         '&:hover': {
+                        //             bgcolor: 'primary.lighter'
+                        //         }
+                        //     })
                     }}
                 >
                     {itemIcon}

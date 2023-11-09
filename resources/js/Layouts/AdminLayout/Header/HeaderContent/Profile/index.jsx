@@ -26,6 +26,7 @@ import SettingTab from './SettingTab.jsx';
 
 // assets
 import {LogoutOutlined, SettingOutlined, UserOutlined} from '@ant-design/icons';
+import {router, usePage} from "@inertiajs/react";
 
 // tab panel wrapper
 function TabPanel({children, value, index, ...other}) {
@@ -47,8 +48,10 @@ function a11yProps(index) {
 const Profile = () => {
     const theme = useTheme();
 
+    const user = usePage().props.auth.user
+
     const handleLogout = async () => {
-        // logout
+       router.post(route('logout'))
     };
 
     const anchorRef = useRef(null);
@@ -134,10 +137,7 @@ const Profile = () => {
                                                         <Avatar alt="profile user" src={avatar1}
                                                                 sx={{width: 32, height: 32}}/>
                                                         <Stack>
-                                                            <Typography variant="h6">John Doe</Typography>
-                                                            <Typography variant="body2" color="textSecondary">
-                                                                UI/UX Designer
-                                                            </Typography>
+                                                            <Typography variant="h6">{user.name}</Typography>
                                                         </Stack>
                                                     </Stack>
                                                 </Grid>
@@ -148,7 +148,7 @@ const Profile = () => {
                                                 </Grid>
                                             </Grid>
                                         </CardContent>
-                                        {open && (
+                                        {!open && (
                                             <>
                                                 <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                                                     <Tabs variant="fullWidth" value={value} onChange={handleChange}

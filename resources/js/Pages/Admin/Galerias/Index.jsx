@@ -7,10 +7,8 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import CardActions from '@mui/material/CardActions';
 import Typography from '@mui/material/Typography';
 
-import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 import StatusIcons from "@/Components/Partials/StatusIcons.jsx";
 
 export default function ({galerias}) {
@@ -22,6 +20,8 @@ export default function ({galerias}) {
                     <div className="col-auto">
                         <TextField label="Pesquisar"/>
                     </div>
+                </div>
+                <div className="row">
                     <div className="col-auto">
                         <a href={route('admin.galerias.create')} className="btn btn-primary">Nova Galeria</a>
                     </div>
@@ -54,7 +54,7 @@ export default function ({galerias}) {
 
                                     <Typography className="mb-2" variant="caption" color="text.secondary"
                                                 component="div">
-                                        {item.data} | <StatusIcons status={item.status} />
+                                        {item.data} | <StatusIcons status={item.status}/>
                                     </Typography>
                                     <Typography className="mb-2" variant="subtitle1" color="text.secondary"
                                                 component="div">
@@ -63,16 +63,20 @@ export default function ({galerias}) {
                                     <Typography variant="body1" color="text.secondary" component="div">
                                         Evento: {item.evento.nome}
                                     </Typography>
-                                    <Typography className="mb-2" variant="body1" color="text.secondary" component="div">
+                                    <Typography className="mb-1" variant="body1" color="text.secondary" component="div">
                                         Localidade: {item.evento.localidade}
+                                    </Typography>
+                                    <Typography className="mt-3" variant="body2" color="text.secondary" component="div">
+                                        Quantidade de Arquivos: {item.qtd_arquivos}
                                     </Typography>
                                 </CardContent>
 
-                                {/*<Box sx={{alignItems: 'center', pl: 1, pb: 1}}>*/}
-                                {/*    <button className="mx-2">*/}
-                                {/*        <ShareOutlinedIcon sx={{fontSize: 15}}/> Compartilhar*/}
-                                {/*    </button>*/}
-                                {/*</Box>*/}
+                                <Box sx={{alignItems: 'center', pl: 1, pb: 0}}>
+                                    <a className="btn btn-sm text-sm p-0 m-0 mx-2"
+                                       href={route('admin.galerias.show', item.id)}>
+                                        Visualizar
+                                    </a>
+                                </Box>
                             </Box>
                         </Card>
                     )

@@ -3,9 +3,10 @@ import {MenuItem, TextField} from "@mui/material";
 import React from "react";
 import SelectEstados from "@/Components/Inputs/SelectEstados.jsx";
 import {useForm} from "@inertiajs/react";
+import {MuiFileInput} from "mui-file-input";
 
 export default function () {
-    const {setData, post} = useForm()
+    const {data, setData, post} = useForm()
     const submit = (e) => {
         e.preventDefault()
         post(route('admin.eventos.store'))
@@ -28,6 +29,10 @@ export default function () {
                     </div>
                     <div className="col">
                         <SelectEstados setData={setData}/>
+                    </div>
+                    <div className="col">
+                        <MuiFileInput fullWidth label="Selecionar Logo" value={data?.logo}
+                                      onChange={e => setData('logo', e)}/>
                     </div>
                 </div>
                 <div className="row">

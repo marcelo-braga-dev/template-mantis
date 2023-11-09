@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\Files\UploadFilesService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,12 +29,15 @@ class Eventos extends Model
 
     public function create($dados)
     {
+        $url = (new UploadFilesService())->armazenarMultiplos($dados->logo, 'eventos/logos');
+
         $this->newQuery()
             ->create([
                 'nome' => $dados->nome,
                 'descricao' => $dados->descricao,
                 'cidade' => $dados->cidade,
                 'estado' => $dados->estado,
+                'logo' => $url
             ]);
     }
 
@@ -54,7 +58,7 @@ class Eventos extends Model
             'cidade' => $item->cidade ?? null,
             'estado' => $item->estado ?? null,
             'localidade' => ($item->cidade ?? null) . '/' . ($item->estado ?? null),
-            'logo' => $item->logo ?? null
+            'logo' => asset($item->logo)
         ];
     }
 

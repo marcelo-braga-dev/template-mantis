@@ -5,10 +5,7 @@ import Logo from './Logo.jsx';
 
 const LogoSection = ({ sx, to }) => {
   return (
-    <ButtonBase
-      disableRipple
-      sx={sx}
-    >
+    <ButtonBase disableRipple sx={sx}>
       <Logo />
     </ButtonBase>
   );

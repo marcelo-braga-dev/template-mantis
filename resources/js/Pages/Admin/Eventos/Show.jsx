@@ -32,7 +32,7 @@ export default function ({evento, galerias}) {
                     </Box>
                     <CardMedia
                         component="img"
-                        sx={{width: 300}}
+                        sx={{width: 200}}
                         image={evento.logo}
                         alt="Imagem"
                     />
