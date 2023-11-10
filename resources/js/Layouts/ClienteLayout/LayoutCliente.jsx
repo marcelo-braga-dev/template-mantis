@@ -14,7 +14,7 @@ export default function LayoutCliente({titlePage, voltar, children}) {
             <AppBar position="static" sx={{bgcolor: 'var(--main-color)', color: 'var(--main-text-color)'}}>
                 <Container maxWidth="md">
                     <Toolbar disableGutters>
-                        <img className="me-5" alt="logo" style={{maxWidth: 150}} src="/storage/app/logo.png"/>
+                        <img className="me-5" alt="logo" style={{maxWidth: 150}} src="/storage/app/logo.jpg"/>
 
                         <MenuPrincipal/>
 

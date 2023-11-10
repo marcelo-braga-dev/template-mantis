@@ -5,8 +5,8 @@ const Logo = () => {
   const theme = useTheme();
 
   return (
-    <div className="bg-dark me-4 mt-3 p-3 rounded">
-        <img src={'/storage/app/logo.png'} width="100%" alt="Logo"/>
+    <div className="me-4 mt-3 p-1 rounded">
+        <img src="/storage/app/logo.jpg" width="100%" alt="Logo"/>
     </div>
   );
 };

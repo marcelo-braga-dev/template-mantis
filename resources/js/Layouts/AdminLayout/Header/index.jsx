@@ -9,7 +9,7 @@ import HeaderContent from './HeaderContent/index.jsx';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import MenuIcon from '@mui/icons-material/Menu';
 
-const Header = ({ open, handleDrawerToggle }) => {
+const Header = ({ open, titlePage, handleDrawerToggle }) => {
     const theme = useTheme();
     const matchDownMD = useMediaQuery(theme.breakpoints.down('lg'));
 
@@ -29,7 +29,7 @@ const Header = ({ open, handleDrawerToggle }) => {
             >
                 {!open ? <MenuIcon /> : <MenuOpenIcon />}
             </IconButton>
-            <HeaderContent />
+            <HeaderContent titlePage={titlePage} />
         </Toolbar>
     );
 
