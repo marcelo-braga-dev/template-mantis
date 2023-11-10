@@ -6,6 +6,7 @@ use App\Services\Files\UploadFilesService;
 use App\src\Galerias\Status\GaleriasStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class Galerias extends Model
@@ -67,12 +68,13 @@ class Galerias extends Model
         return $this->dados($dados, $eventos);
     }
 
-    public function evento($id)
+    public function evento($id, $publico = null)
     {
         $eventos = (new Eventos())->getNomes();
 
         return $this->newQuery()
             ->where('eventos_id', $id)
+            ->where($publico ? ['status' => (new GaleriasStatus())->publica()] : null)
             ->get()
             ->transform(function ($item) use ($eventos) {
                 return $this->dados($item, $eventos);
@@ -110,7 +112,7 @@ class Galerias extends Model
             ]);
     }
 
-    public function getPeloToken($hash):array
+    public function getPeloToken($hash): array
     {
         $eventos = (new Eventos())->getNomes();
         $qtdArquivos = (new GaleriasArquivos())->qtdArquivos();
@@ -121,5 +123,19 @@ class Galerias extends Model
             ->firstOrFail();
 
         return $this->dados($dados, $eventos, $qtdArquivos);
+    }
+
+    public function qtdEvento()
+    {
+        $dados = $this->newQuery()
+            ->select(DB::raw('COUNT(id) as qtd, eventos_id as evento'))
+            ->groupBy('evento')
+            ->get();
+
+        $res = [];
+        foreach ($dados as $item) {
+            $res[$item->evento] = $item->qtd;
+        }
+        return $res;
     }
 }

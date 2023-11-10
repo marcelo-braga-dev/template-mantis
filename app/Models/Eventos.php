@@ -3,8 +3,11 @@
 namespace App\Models;
 
 use App\Services\Files\UploadFilesService;
+use App\src\Galerias\Status\GaleriasStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+
 
 class Eventos extends Model
 {
@@ -12,18 +15,23 @@ class Eventos extends Model
 
     protected $fillable = [
         'nome',
+        'status',
         'descricao',
         'cidade',
         'estado',
-        'logo'
+        'logo',
+        'token'
     ];
 
-    public function get()
+    public function get($publicos = false)
     {
+        $qtdGaleria = (new Galerias())->qtdEvento();
+
         return $this->newQuery()
+            ->where($publicos ? ['status' => (new GaleriasStatus())->publica()] : null)
             ->get()
-            ->transform(function ($item) {
-                return $this->dados($item);
+            ->transform(function ($item) use ($qtdGaleria) {
+                return $this->dados($item, $qtdGaleria);
             });
     }
 
@@ -34,10 +42,12 @@ class Eventos extends Model
         $this->newQuery()
             ->create([
                 'nome' => $dados->nome,
+                'status' => $dados->status,
                 'descricao' => $dados->descricao,
                 'cidade' => $dados->cidade,
                 'estado' => $dados->estado,
-                'logo' => $url
+                'logo' => $url,
+                'token' => Str::random()
             ]);
     }
 
@@ -49,16 +59,19 @@ class Eventos extends Model
         return $this->dados($dados);
     }
 
-    private function dados($item): array
+    private function dados($item, $qtdGaleria = null): array
     {
         return [
             'id' => $item->id ?? null,
             'nome' => $item->nome ?? null,
+            'status' => $item->status ?? null,
             'descricao' => $item->descricao ?? null,
             'cidade' => $item->cidade ?? null,
             'estado' => $item->estado ?? null,
+            'galerias_qtd' => $qtdGaleria[$item->id] ?? 0,
             'localidade' => ($item->cidade ?? null) . '/' . ($item->estado ?? null),
-            'logo' => asset('storage/' . $item->logo)
+            'logo' => asset('storage/' . $item->logo),
+            'token' => $item->token
         ];
     }
 
@@ -72,5 +85,14 @@ class Eventos extends Model
             $res[$item->id] = $this->dados($item);
         }
         return $res;
+    }
+
+    public function getPeloToken($hash)
+    {
+        $dados = $this->newQuery()
+            ->where('token', $hash)
+            ->firstOrFail();
+
+        return $this->dados($dados);
     }
 }

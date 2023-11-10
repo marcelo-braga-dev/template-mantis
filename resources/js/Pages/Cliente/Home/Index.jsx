@@ -12,7 +12,10 @@ export default function ({galerias}) {
 
     return (
         <LayoutCliente>
-            <div className="row justify-content-end">
+            <div className="row justify-content-between">
+                <div className="col-auto pt-4">
+                    <h5>Galerias</h5>
+                </div>
                 <div className="col-auto">
                     <TextField label="Pesquisar..."/>
                 </div>

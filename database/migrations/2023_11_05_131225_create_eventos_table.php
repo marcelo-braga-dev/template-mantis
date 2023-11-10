@@ -13,10 +13,12 @@ return new class extends Migration {
         Schema::create('eventos', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
+            $table->string('status', 32);
             $table->string('descricao')->nullable();
             $table->string('cidade');
             $table->string('estado');
             $table->string('logo')->nullable();
+            $table->string('token');
             $table->timestamps();
         });
     }

@@ -18,22 +18,17 @@ const style = {
 
 const dashboard = [
         {
-            id: 'home',
-            nome: 'Home',
-            url: route('home')
-        }, {
             id: 'eventos',
             nome: 'Eventos',
-            url: route('admin.eventos.index')
+            url: route('clientes.eventos.index', 'jh5s')
         }, {
             id: 'galerias',
             nome: 'Galerias',
-            url: route('admin.eventos.index')
+            url: route('home')
         }, {
             id: 'instruções',
             nome: 'Instruções de Uso',
-            url: route('admin.eventos.index'),
-            onClick: () => console.log('CLICADO')
+            url: route('clientes.instrucoes-uso'),
         }
     ]
 ;

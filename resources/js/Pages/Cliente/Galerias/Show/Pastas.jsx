@@ -11,20 +11,14 @@ import React, {useState} from "react";
 import {router, useForm} from "@inertiajs/react";
 
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import FolderOpenOutlinedIcon from "@mui/icons-material/FolderOpenOutlined";
 import DeleteIcon from "@mui/icons-material/Delete";
-import CreateNewFolderOutlinedIcon from "@mui/icons-material/CreateNewFolderOutlined";
-import UploadOutlinedIcon from '@mui/icons-material/UploadOutlined';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import FolderIcon from '@mui/icons-material/Folder';
 
 import {covertDataNumber, covertTamanhoArquivo} from "@/helpers/conversoes.js";
 import {verificaTipoArquivo} from "@/helpers/dados.js";
 
-import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-
-
 
 export default function Pastas({galeria, pastas}) {
     const {setData, data, post} = useForm({
@@ -34,6 +28,7 @@ export default function Pastas({galeria, pastas}) {
     })
 
     const [btnUpload, setBtnUpload] = useState(false)
+    const [open, setOpen] = React.useState(false);
 
     async function submit(e) {
         e.preventDefault()
@@ -57,41 +52,22 @@ export default function Pastas({galeria, pastas}) {
         })
     }
 
-    const [open, setOpen] = React.useState(false);
-    const handleClose = () => {
-        setOpen(false);
-    };
-    const handleOpen = () => {
-        setOpen(true);
-    };
-
     return (
         <section>
-            <div className="row">
-                <div className="col">
-                    <h5>{galeria.titulo}</h5>
-                    <span>{galeria.data}</span>
-                </div>
-            </div>
-
             {/*Pastas*/}
             <div className="row justify-content-between border-bottom">
                 <div className="col-auto mb-0">
                     <ListItemButton className="" onClick={() => selecionaPasta(pastas?.superior)}>
                         <ListItem className="p-0">
                             <ListItemIcon>
-                                <HomeOutlinedIcon className="me-1"/>
+                                {pastas?.nivel ? <ArrowBackIcon fontSize="small" className="me-2"/> : <HomeOutlinedIcon className="me-1"/>}
+
                             </ListItemIcon>
                             <ListItemText
-                                primary={pastas?.nivel ? `.../${pastas?.superior_nome}/` : '/'}
+                                primary={pastas?.nivel ? `${pastas?.superior_nome}` : '/'}
                             />
                         </ListItem>
                     </ListItemButton>
-                </div>
-                <div className="col-auto mb-auto">
-                    <button onClick={() => selecionaPasta(pastas?.superior)}>
-                        <ArrowBackIcon fontSize="small"/>
-                    </button>
                 </div>
             </div>
 
